@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Generator Engine Affiliate Maths Klub</title>
+  
+  <!-- Google Fonts: Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Quicksand', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- React & ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <!-- Babel CDN untuk kompilasi JSX dalam browser -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    * {
+      font-family: 'Quicksand', sans-serif !important;
+    }
+    body {
+      background-color: #F8FAFC;
+      color: #1E293B;
+      font-family: 'Quicksand', sans-serif;
+    }
+    ::selection {
+      background-color: #FFEA3D;
+      color: #1E293B;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-800 antialiased selection:bg-[#FFEA3D]">
+
+  <!-- Pucuk Utama Aplikasi -->
+  <div id="root"></div>
+
+  <!-- Skrip Aplikasi React -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // ============================================================================
+    // SHORT & PUNCHY 3-SECOND HOOK DICTIONARY (Short Video Optimized)
+    // ============================================================================
+
+    const PUNCHY_3SEC_HOOKS = {
+      Curiosity: [
+        "Ini rahsia kenapa anak fobia soalan penyelesaian masalah!",
+        "I baru jumpa hack mudah bagi anak cepat faham Maths.",
+        "Kenapa budak automatik 'shut down' bila nampak soalan panjang?",
+        "Rahsia kenapa budak cepat mengantuk bila buat homework Maths.",
+        "I pelik kenapa ramai tak tahu tektik visual Maths ni...",
+        "Satu benda misteri pasal cara budak mengira nombor.",
+        "Ini cara 'hijack' skrin phone anak jadi alat mengira!",
+        "Terkejut bila tahu punca sebenar anak takut Maths!",
+        "Korang nak tahu tak helah mudah fahami soalan penyelesaian masalah?",
+        "I terbongkar satu trik ajaib untuk budak kuasai sifir.",
+        "Satu benda pelik berlaku bila tukar latihan Maths ke visual...",
+        "Rahsia yang cikgu sekolah jarang sempat nak cerita kat parent.",
+        "Kenapa jawapan soalan penyelesaian masalah anak selalu salah?",
+        "Ini punca sebenar kenapa budak berkerut dahi bila buat Maths!",
+        "Satu penemuan kecil yang ubah cara anak mengira!",
+        "Kenapa anak korang susah nak nampak pola sifir?",
+        "Trik 15 minit sehari bagi anak seronok buat soalan Maths.",
+        "I baru perasan kenapalah budak cepat blur bila baca soalan ayat penyelesaian masalah...",
+        "Satu rahsia visual Maths yang ramai parent terlepas pandang!",
+        "Ini cara ringkas selesaikan fobia nombor anak dari rumah."
+      ],
+      Relatable: [
+        "Bila tengok anak termenung sejam depan soalan Maths...",
+        "Momen bila sabar makin nipis ajar sifir malam-malam.",
+        "Pernah tak rasa guilty lepas terjerit kat anak pasal homework?",
+        "Balik kerja penat, anak pulak hulur buku latihan Maths...",
+        "Siapa kat sini selalu bergaduh kat meja makan sebab Maths?",
+        "Budak dah menangis, kita pulak tahan sabar urut dada...",
+        "Rasa macam mak yang gagal bila terkasar suara lagi...",
+        "Suasana rumah bertukar tegang bila sebut jer pasal Maths!",
+        "Setiap kali masuk waktu homework, mesti ada drama air mata.",
+        "Aduhai, penatnya emosi bila hari-hari kena ajar sifir...",
+        "Tengok muka anak berkerut bertenggek depan buku latihan...",
+        "Ada tak mak-mak kat sini yang geng dengan i bab ajar Maths?",
+        "Momen bila rasa nak surrender ajar soalan penyelesaian masalah.",
+        "Anak dah berpeluh pegang pensel tapi satu nombor pun tak jalan...",
+        "Pernah tak rasa dada sesak sebab nak kena semak homework Maths?",
+        "Bila air mata anak jatuh atas buku latihan Matematik...",
+        "Rasa tertekan sangat bila hari-hari kena menghadap soalan Maths.",
+        "Tiap kali nak exam Maths, kita pulak yang rasa nak demam!",
+        "Bila anak mula lari dan sorok buku latihan Maths...",
+        "Dua-dua terjerit kat meja makan gara-gara soalan sifir!"
+      ],
+      PainPoint: [
+        "Jangan tunggu gred Maths anak 'E' baru nak kalang-kabut!",
+        "Takut tengok anak makin jauh ketinggalan dalam Maths?",
+        "Anak mula takut nak dekat tiap kali masuk waktu homework?",
+        "Duit tuisyen berhabis tapi gred Maths anak tetap sama?",
+        "Anak selalu mengadu 'Mami, i tak pandai Maths'?",
+        "Jangan biarkan trauma nombor menimbun dari Sekolah Rendah!",
+        "Risau sangat bila tengok markah Matematik anak merosot?",
+        "Rasa nak pecah kepala bila paksa anak buat latihan Maths?",
+        "Anak mula hilang keyakinan diri di sekolah sebab Maths?",
+        "Kesian kat anak bila terus dikira 'slow' dalam kelas...",
+        "Isu paling kronik yang buat anak terus rasa fobia Maths.",
+        "Tekanan homework malam-malam makin merosakkan hubungan keluarga.",
+        "Masalah fobia asas ni kalau tak dibendung dari awal...",
+        "Kesan jangka panjang bila anak trauma dengan soalan Maths.",
+        "Penat sangat emosi mak ayah bila anak dah mula putus asa."
+      ],
+      BoldStatement: [
+        "Anak korang bukannya 'slow', cara ajar tu yang kaku!",
+        "Marah dan terjerit-jerit takkan buat anak pandai Maths!",
+        "Matematik bukan subjek menghafal, tapi subjek VISUAL!",
+        "Berhenti salahkan anak kalau dorang tak minat Maths.",
+        "Gajet bukan musuh anak, cara kita guna tu yang silap!",
+        "Cara mengajar kaku tulisan tebal tu yang buat anak blur!",
+        "Jangan tuduh anak malas kalau kaedah ajar tu membosankan!",
+        "90% budak akan 'shut down' kalau paksa hafal sifir!",
+        "Stop dera emosi anak malam-malam pasal homework Maths!",
+        "Anak korang bukannya bodoh, soalan tu yang berbelit!",
+        "Cara mengajar zaman 90-an dah tak sesuai untuk budak sekarang!",
+        "Nak anak pandai Maths bukan dengan cara denda!",
+        "Otak budak memerlukan gambar rajah, bukannya teks tebal!",
+        "Stop cap anak tak ada bakat dalam Matematik!",
+        "Ubah persepsi korang sekarang kalau nak selamatkan minat anak!"
+      ]
+    };
+
+    const SCENARIOS = {
+      Parent: [
+        "Kat meja makan rumah i dulu, asal masuk jam 8.30 malam jer mesti ada drama air mata. Anak i akan cari 100 alasan nak lari bila nampak buku latihan.",
+        "Balik kerja penat-penat, bila duduk sebelah anak nak semak kerja sekolah Matematik, emosi i yang memang dah penat kerja selalu terbabas.",
+        "I selalu perhati anak i berkerut kening bila nampak blok soalan penyelesaian masalah yang panjang-panjang. Minda dia terus jadi gelap.",
+        "Jujur i cakap, i pernah rasa nak mengalah sebab tiap kali ajar anak Matematik, suasana rumah bertukar tegang macam medan perang.",
+        "Setiap kali nak ujian Matematik, i yang rasa nak demam sebab tahu anak i akan bertarung dengan soalan penyelesaian masalah yang dia tak faham.",
+        "Tiap-tiap malam i terpaksa tadah telinga dengar anak i merungut 'Mami, soalan ni susah sangatlah!'. Masa tu rasa kesian bercampur stress.",
+        "I ingat lagi momen bila anak i tutup buku latihan lepas tu terus baring peluk bantal sebab pening tak faham soalan penyelesaian masalah.",
+        "Setiap kali i sebut 'Jom buat homework Maths', muka anak i terus berubah monyok dan lari masuk bilik air.",
+        "Bila i paksa juga dia duduk mengira, baru 10 minit dua-dua dah mula naik suara. Rasa macam mak yang paling gagal."
+      ],
+      NonParent: [
+        "Masa i balik rumah akak i minggu lepas, kesian sangat tengok dia terjerit-jerit kat meja makan ajar anak buah i sifir sampai dua-dua menangis.",
+        "I yang belum ada anak ni pun rasa fobia bila dengar kawan office merungut stress sangat balik kerja kena ajar Matematik kat rumah.",
+        "Masa i perhati anak buah i buat soalan penyelesaian masalah Matematik, i perasan minda dia terus 'jem' bila nampak soalan ayat penyelesaian masalah tebal tanpa gambar.",
+        "Sebagai ibu saudara, i gatal tangan pergi cari alternatif bila tengok anak buah i asyik murung sebab selalu dapat markah rendah dalam Maths.",
+        "Bila borak dengan kawan office yang dah ada anak, isu paling utama dorang ialah penat nak paksa anak buat latihan Matematik secara konsisten.",
+        "Masa melawat rumah abang i, i nampak anak buah i termenung dekat sejam depan buku soalan penyelesaian masalah tanpa tulis satu nombor pun.",
+        "Kesian tengok akak i balik kerja penat, lepas tu malam kena menghadap anak buah i yang fobia dengan soalan penyelesaian masalah.",
+        "I perasan anak buah i tak ada masalah mengira nombor biasa, tapi bila masuk soalan ayat penyelesaian masalah panjang, dia terus angkat tangan tak nak buat."
+      ],
+      Teacher: [
+        "Dalam kelas Matematik saya, biasa memang sekurang-kurangnya separuh murid akan mula termenung atau mengantuk bila masuk soalan penyelesaian masalah.",
+        "Bila bagi latihan soalan penyelesaian masalah biasa, murid kelas belakang selalu tayang muka 'blur' dan takut nak pegang pensel.",
+        "Beban kerja mengajar memang mencabar bila kita terpaksa ulang terangkan konsep yang sama berbelas kali tapi murid tetap tak faham.",
+        "Pengalaman saya mengajar pemulihan, murid bukan tak nak cuba tapi dorang tak nampak hubung kait nombor tu secara visual.",
+        "Sebagai tutor/cikgu, masa kita sangat terhad untuk reka bahan grafik interaktif dari kosong setiap malam untuk kegunaan PdP.",
+        "Bila semak kertas ujian murid, kebanyakan markah terbuang kat bahagian soalan penyelesaian masalah sebab dorang salah faham kehendak soalan.",
+        "Saya selalu perhati murid yang pandai mengira pun akan sangkut bila berdepan dengan soalan penyelesaian masalah berpanggar ayat tebal."
+      ]
+    };
+
+    const PAIN_AGITATIONS = [
+      "Bila emosi dah mula terbabas, proses belajar takkan pernah jadi berkesan lagi. Yang tinggal cuma rasa takut dan trauma dalam diri budak.",
+      "Keadaan ni kalau dibiarkan berlarutan, minat budak pada subjek Matematik akan terus terbunuh dari sekolah rendah lagi.",
+      "Lagi kita paksa dengan cara jerit dan denda, lagi lah otak budak tu membina benteng fobia yang makin tebal.",
+      "Duit berhabis hantar tuisyen sana sini pun takkan menyelesaikan masalah kalau akar puncanya iaitu 'fobia visual' tidak diatasi.",
+      "Kesian kat emosi budak, kesian juga kat kesihatan mental kita sebagai ibu ayah/pendidik yang hari-hari burnout.",
+      "Budak akan mula rasa diri dorang ketiadaan bakat, sedangkan masalah sebenar ialah cara suapan maklumat tu yang tidak serasi dengan otak dorang."
+    ];
+
+    const INSIGHTS = {
+      Tips: [
+        "Petua utama: Potong soalan panjang tu kepada bahagian kecil dan terjemahkan nombor kaku kepada bentuk gambar rajah interaktif.",
+        "Kuncinya ialah 'visual scaffolding' — bagi pembayang grafik warna-warni supaya otak kanan dorang dapat tangkap pola nombor.",
+        "Langkah terbaik ialah luangkan cuma 10-15 minit sehari dengan kaedah interaktif, berbanding 2 jam duduk paksa hafal.",
+        "Gunakan kaedah perbandingan visual (seperti warna/blok) supaya otak dorang dapat bayangkan kuantiti nombor tu dengan jelas.",
+        "Tukar strategi: Ajar dorang nampak pertalian nombor melalui animasi grafik sebelum suruh dorang mengira."
+      ],
+      Clarity: [
+        "Realitinya, otak budak generasi skrin ni memerlukan pendedahan VISUAL untuk membayangkan apa yang soalan tu nak.",
+        "Fakta sebenar: Minda budak bukannya fobia kat nombor, tapi dorang 'overwhelmed' bila nampak longgokan soalan tanpa visual.",
+        "Klariti penting: Bila konsep asas (seperti pertalian darab dan tambah) dipaparkan secara grafik, ketakutan dorang automatik hilang.",
+        "Hakikatnya gajet boleh jadi alat latihan otak yang sangat berkesan kalau kita penuhi dengan modul interaktif yang betul.",
+        "Mitos mengatakan dorang 'takde bakat', padahal dorang cuma perlukan penjelasan berbentuk gambar rajah mesra otak."
+      ],
+      SoftSelling: [
+        "Alhamdulillah lepas i kenalkan modul visual Maths Klub ni, suasana belajar bertukar 360 darjah jadi tenang dan santai.",
+        "Bila guna modul interaktif Maths Klub, anak boleh 'explore' dan selesaikan soalan penyelesaian masalah secara berdikari tanpa perlu kita bertenggek kat sebelah.",
+        "Modul Maths Klub ni menterjemahkan soalan penyelesaian masalah yang susah menjadi gambar rajah yang sangat mudah difahami.",
+        "Inilah ikhtiar yang bantu ringankan beban emosi kat rumah. Anak gembira dapat belajar, kita pun tak payah geram dan termarah lagi.",
+        "Dengan grafik berwarna-warni dan sistem kuiz berasaskan ganjaran Maths Klub, belajar mengira dah jadi aktiviti kegemaran dorang."
+      ],
+      Relatable: [
+        "Bila difikirkan balik, budak-budak bukannya sengaja nak buat kita geram. Dorang cuma tertekan sebab ketinggalan konsep asas.",
+        "Sebab tu penting untuk kita ubah pendekatan mengajar dari rumah demi menjaga emosi dan keharmonian keluarga.",
+        "Mari kita bantu anak-anak bina keyakinan diri semula dalam Matematik secara perlahan-lahan tanpa tekanan.",
+        "Bila emosi anak tenang dan tidak takut, ilmu Matematik akan jauh lebih mudah masuk ke dalam fikiran dorang.",
+        "Sabar itu penting, tapi menyediakan alat bantuan belajar yang betul untuk anak jauh lebih utama."
+      ],
+      HardSelling: [
+        "Dapatkan modul Maths Klub sekarang! Di dalamnya lengkap dengan panduan visual langkah demi langkah, latihan interaktif, dan formula bergambar yang confirm buat anak cepat faham.",
+        "Tak payah fikir panjang, grab terus set Maths Klub ni. Anak akan dapat akses latihan berkonsepkan kuiz, nota visual padat, dan teknik pecahkan soalan penyelesaian masalah paling berkesan.",
+        "Modul Maths Klub ni memang wajib ada kat setiap rumah. Lengkap dengan set soalan bergambar, kuiz kumpul bintang, dan teknik visual yang dijamin selesaikan fobia Maths anak.",
+        "Beli je Maths Klub ni, gerenti tak menyesal. Dalam ni dah siap sedia dengan pembayang grafik warna-warni, penyelesaian drag-and-drop, dan cara jawab soalan Maths tanpa pening kepala.",
+        "Ini pelaburan paling berbaloi untuk pendidikan anak. Set Maths Klub didatangkan dengan latihan berbentuk game santai, nota interaktif, dan jalan kira visual untuk soalan penyelesaian masalah yang susah."
+      ]
+    };
+
+    const TRANSFORMATIONS = [
+      "Bila disuap dengan kaedah yang betul, soalan penyelesaian masalah Matematik yang dulunya nampak 'mengerikan' terus jadi modul yang paling dorang seronok nak buat.",
+      "Masa tu rasa lega sangat sebab dari tayang muka berkerut dan menangis, dorang terus senyum bila dapat selesaikan soalan sendiri.",
+      "Dalam masa tak sampai seminggu, tahap konfiden dorang melonjak naik bila bercakap pasal nombor dan sifir.",
+      "Kesihatan mental mak-mak terpelihara, anak pun dapat ilmu dengan gembira tanpa perlu dipaksa-paksa lagi.",
+      "Inilah beza bila kita guna alat bantuan yang mesra pemikiran budak generasi digital sekarang.",
+      "Kini waktu belajar malam dah bertukar jadi masa yang paling tenang dan penuh dengan gelak tawa."
+    ];
+
+    const CTAS_BIO = [
+      "I ada simpan link modul visual Maths Klub ni dekat bio. Korang yang nak bantu anak/anak buah, pi intip kejap kat sana tau!",
+      "Untuk korang yang nak dapatkan set latihan visual Maths Klub ni, boleh tekan link kat bio i sekarang.",
+      "Jom ubah suasana belajar rumah korang jadi lebih damai. Klik pautan rasmi kat bio i untuk maklumat lanjut!",
+      "Korang boleh tengok contoh modul interaktif Maths Klub ni kat link bio i. Memang berbaloi sangat!",
+      "Cikgu / Parent yang nak dapatkan bahan PdP visual ni, pautan penuh ada di bio saya ya!",
+      "Singgah pautan profil bio i kejap kalau korang nak cuba kaedah mesra emosi anak ni."
+    ];
+
+    const CTAS_ENGAGEMENT = [
+      "Korang kat sini ada tak anak yang jenis cepat stress bila nampak soalan penyelesaian masalah? Jemput luah kat komen, kita geng! 😭👇",
+      "Saja nak tanya, berapa jam biasanya korang luangkan masa nak bagi anak faham satu topik Matematik? Share lah kat bawah!",
+      "Agak-agak korang setuju tak kalau cara visual ni jauh lebih efektif dari paksa hafal? Cer bagi pendapat sikit.",
+      "Siapa kat sini pernah rasa guilty sangat lepas geram atau termarah kat anak pasal homework? Drop '❤️' kat komen biar kita saling menguatkan.",
+      "Topik Matematik sekolah rendah mana yang paling buat korang pening nak terangkan kat anak? Meh borak kat bawah!",
+      "Cer share pengalaman korang kat komen, macam mana korang handle bila anak fobia dengan soalan penyelesaian masalah?"
+    ];
+
+    const PLATFORM_MEDIA_DATABASE = {
+      'TikTok Caption': [
+        "🎥 SCREEN RECORDING TIKTOK (9:16): Rakaman skrin bergerak memaparkan modul Maths Klub tengah 'drag & drop' nombor visual. Teks hamparan: 'Satu Soalan Penyelesaian Masalah Selesai Dalam 30 Saat!'.",
+        "🎥 SCREEN RECORDING & VOICE OVER: Buat screen record paparan soalan interaktif Maths Klub yang warna-warni berserta rakaman suara korang terangkan cara mudah guna modul ni.",
+        "📸 TIKTOK PHOTO CAROUSEL (3-5 Slaid): Slaid 1: Gambar anak termenung/teks susahnya soalan penyelesaian masalah. Slaid 2-4: Screen Recording/Snapshot modul Maths Klub yang ada jawapan visual.",
+        "🎥 SCREEN RECORDING APLIKASI TIKTOK: Rakaman skrin telefon tegak tunjuk fungsi kuiz interaktif Maths Klub bila anak dapat kumpul 'stars/reward' lepas selesai soalan.",
+        "🎥 REELS / TIKTOK DUAL SCREEN: Separuh skrin atas tunjuk muka berkerut buat latihan biasa, separuh skrin bawah tunjuk Screen Recording modul Maths Klub yang sangat santai."
+      ],
+      'Threads': [
+        "📸 SCREENSHOT APLIKASI / GAME: Tangkapan skrin (screenshot) kuiz/game interaktif Maths Klub yang nampak warna-warni dan mesra budak.",
+        "🖼️ CAROUSEL IMAGES (2-3 Slaid): Tangkapan skrin helaian soalan penyelesaian masalah sebelum vs selepas guna modul visual Maths Klub.",
+        "📸 GAMBAR TESTIMONI / FEEDBACK: Tangkapan skrin perbualan WhatsApp mak-mak/kawan yang puji modul Maths Klub berkesan untuk anak dorang.",
+        "📷 GAMBAR MEJA STUDY: Tangkapan skrin tablet/phone memaparkan Maths Klub kat sebelah cawan kopi waktu malam."
+      ],
+      'FB Group': [
+        "🖼️ POSTER IKLAN / BANNER: Gambar poster promosi atau banner maklumat Maths Klub yang menunjukkan kelebihan modul visual.",
+        "📸 GAMBAR FEEDBACK & TESTIMONI: Screenshot tangkapan skrin mesej mak-mak/parent yang kongsi kejayaan anak dorang faham soalan penyelesaian masalah.",
+        "📷 GAMBAR PARENT & ANAK: Gambar ibu/ayah duduk bersembang mesra dengan anak kat meja study sambil tengok modul Maths Klub.",
+        "🖼️ INFOGRAFIK PERBANDINGAN: Gambar infografik menunjukkan perbezaan 'Cara Lama (Kaku)' vs 'Cara Maths Klub (Visual Interaktif)'."
+      ],
+      'WhatsApp': [
+        "🖼️ GAMBAR POSTER / FLYER DIGITAL: Poster grafik pendek Maths Klub yang ada ringkasan manfaat dan pautan ringkas.",
+        "📸 SCREENSHOT CHAT FEEDBACK: Gambar screenshot feedback sebenar pelanggan/parent yang berpuas hati untuk hantar terus ke group/personal chat.",
+        "📷 GAMBAR PAPARAN APLIKASI: Gambar kemas skrin modul Maths Klub pada tablet/telefon pintar untuk ditarik perhatian bakal pembeli."
+      ]
+    };
+
+    function App() {
+      // Navigasi Utama Halaman
+      const [activeTab, setActiveTab] = useState('generator'); // 'generator' | 'ideadump'
+
+      // State Bahagian Content Generator Sedia Ada
+      const [sellerPerspective, setSellerPerspective] = useState('NonParent'); 
+      const [contentType, setContentType] = useState('SoftSelling');
+      const [hookCategory, setHookCategory] = useState('Curiosity');
+      const [audienceAngle, setAudienceAngle] = useState('Mak Anak Fobia Maths');
+      const [ctaOption, setCtaOption] = useState('LINK_BIO');
+      const [platform, setPlatform] = useState('TikTok Caption');
+      
+      const [copied, setCopied] = useState(false);
+      const [generatedOutput, setGeneratedOutput] = useState(null);
+      const [isRefreshing, setIsRefreshing] = useState(false);
+
+      // State Halaman Idea Dump
+      const [targetAudienceInput, setTargetAudienceInput] = useState('');
+      const [rawIdeaInput, setRawIdeaInput] = useState('');
+      const [generatedAngles, setGeneratedAngles] = useState([]);
+      const [selectedAngleIndex, setSelectedAngleIndex] = useState(null);
+      const [expandedContent, setExpandedContent] = useState(null);
+      const [isDumping, setIsDumping] = useState(false);
+      const [copiedDump, setCopiedDump] = useState(false);
+
+      const generateUltraDeepText = () => {
+        setIsRefreshing(true);
+        setTimeout(() => setIsRefreshing(false), 150);
+
+        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+        // Hook Ringkas & Short Video Optimized (3 Saat First)
+        const hookList = PUNCHY_3SEC_HOOKS[hookCategory] || PUNCHY_3SEC_HOOKS.Curiosity;
+        let hook = pick(hookList);
+
+        // Synthesize Body
+        const roleKey = sellerPerspective === 'Teacher' ? 'Teacher' : sellerPerspective === 'NonParent' ? 'NonParent' : 'Parent';
+        const scenario = pick(SCENARIOS[roleKey]);
+        const agitation = pick(PAIN_AGITATIONS);
+        const insight = pick(INSIGHTS[contentType] || INSIGHTS.SoftSelling);
+        const transform = pick(TRANSFORMATIONS);
+
+        let body = `${scenario}\n\n${agitation}\n\n${insight}\n\n${transform}`;
+
+        // Strict Word Boundary (\b) Replacement To Prevent Typo Bugs
+        if (sellerPerspective === 'NonParent') {
+          body = body.replace(/\banak i\b/gi, 'anak buah i');
+          body = body.replace(/\bmami\b/gi, 'Auntie');
+        } else if (sellerPerspective === 'Teacher') {
+          body = body.replace(/\banak i\b/gi, 'murid saya');
+          body = body.replace(/\bi\b/g, 'saya');
+          body = body.replace(/\bmami\b/gi, 'Cikgu');
+        }
+
+        // CTA & Media
+        let cta = ctaOption === 'LINK_BIO' ? pick(CTAS_BIO) : pick(CTAS_ENGAGEMENT);
+        const mediaPool = PLATFORM_MEDIA_DATABASE[platform] || PLATFORM_MEDIA_DATABASE['TikTok Caption'];
+        let media = pick(mediaPool);
+
+        // Platform Adaptation
+        if (platform === 'TikTok Caption') {
+          body = body.replace(/\n\n/g, '\n');
+          body = body + "\n\n📌 Save video ni & try kaedah ni kat rumah!\n\n#MathsKlub #AffiliateMathsKlub #ScreenRecording #AnakPandaiMaths #ParentingHack #TipsBelajar #SoalanPenyelesaianMasalah";
+        } else if (platform === 'Threads') {
+          hook = "💬 " + hook;
+          if (ctaOption === 'LINK_BIO') cta = cta + " (Link dekat bio Profile i)";
+        } else if (platform === 'FB Group') {
+          const fbCallouts = [
+            "Salam semua mak ayah & rakan komuniti. Nak kongsi sikit luahan santai...",
+            "Hai warga group, ada tak yang lalui benda sama bila semak buku anak...",
+            "Minta izin kongsi sikit pandangan jujur kat sini...",
+            "Isu kecil tapi besar kesannya pada emosi anak-anak kita...",
+            "Perkongsian ikhlas untuk mak ayah & pendidik kat sini...",
+            "Saja nak buka perbincangan santai dengan mak-mak & cikgu dalam group ni...",
+            "Jujur nak tanya rakan-rakan dalam group ni pasal situasi homework anak...",
+            "Salam semua. Terpanggil nak luahkan benda ni bila tengok cara anak belajar...",
+            "Momen mak ayah berdepan soalan Matematik anak kat rumah...",
+            "Sedikit peringatan dan perkongsian santai buat semua ibu bapa..."
+          ];
+          const fbOutros = [
+            "Pengalaman saya, bila kita ubah pendekatan mengajar dari rumah, emosi anak pun jadi lebih stabil. Kita tak perlu terjerit-jerit lagi tiap-tiap malam.",
+            "Bila difikirkan balik, emosi anak jauh lebih berharga daripada markah semata-mata. Pendekatan visual ni memang banyak membantu.",
+            "Semoga perkongsian kecil ni beri manfaat buat mak ayah yang tengah berjuang ajar anak kat rumah.",
+            "Bila kaedahnya kena dengan jiwa anak, proses belajar automatik jadi tenang dan menggembirakan sekeluarga."
+          ];
+          hook = pick(fbCallouts) + "\n\n" + hook;
+          body = body + "\n\n" + pick(fbOutros);
+        } else if (platform === 'WhatsApp') {
+          hook = "📢 *PERKONGSIAN KHAS MATHS KLUB*\n\n" + hook;
+          body = body.replace(/\n\n/g, '\n\n➡️ ');
+          cta = "👉 *KLIK UNTUK INFO:* " + (ctaOption === 'LINK_BIO' ? "Sila minta pautan dengan saya ya!" : "Jom borak kat sini!");
+        }
+
+        setGeneratedOutput({ hook, body, cta, media });
+      };
+
+      const getMediaHeaderTitle = () => {
+        switch (platform) {
+          case 'TikTok Caption': return '[4. CADANGAN MEDIA / SCREEN RECORDING TIKTOK]';
+          case 'Threads': return '[4. CADANGAN MEDIA / SCREENSHOT & CAROUSEL THREADS]';
+          case 'FB Group': return '[4. CADANGAN MEDIA / POSTER & FEEDBACK FB GROUP]';
+          case 'WhatsApp': return '[4. CADANGAN MEDIA / POSTER & CHAT WHATSAPP]';
+          default: return '[4. CADANGAN MEDIA / VISUAL]';
+        }
+      };
+
+      useEffect(() => {
+        generateUltraDeepText();
+      }, [sellerPerspective, contentType, hookCategory, audienceAngle, ctaOption, platform]);
+
+      const getFullCopyText = () => {
+        if (!generatedOutput) return "";
+        return `${generatedOutput.hook}\n\n${generatedOutput.body}\n\n${generatedOutput.cta}\n\n[CADANGAN MEDIA/VISUAL]:\n${generatedOutput.media}`;
+      };
+
+      const handleCopy = () => {
+        const fullText = getFullCopyText();
+        const textArea = document.createElement("textarea");
+        textArea.value = fullText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+          console.error('Salin gagal', err);
+        }
+        document.body.removeChild(textArea);
+      };
+
+      // Logik Enjin Idea Dump
+      const handleGenerateIdeaDump = () => {
+        const target = targetAudienceInput.trim() || 'Ibu bapa yang anak lemah Matematik';
+        const rawIdea = rawIdeaInput.trim() || 'Anak cepat faham Maths bila ajar guna visual berbanding hafal sifir kaku';
+
+        setIsDumping(true);
+        setTimeout(() => setIsDumping(false), 200);
+
+        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+        // Pangkalan Variasi Dinamik untuk Menjana Angle Berbeza Setiap Klik
+        const DYNAMIC_ANGLE_POOLS = {
+          guilt: {
+            headlines: [
+              `Bila ${target} rasa nak menangis sebab terkasar suara pasal homework Maths...`,
+              `Detik bila ${target} rasa bersalah sangat lepas tertengking anak depan buku kira-kira...`,
+              `Rasa macam mak ayah gagal bila ${target} hilang sabar masa ajar Matematik malam-malam...`,
+              `Momen bila anak mula takut nak dekat dengan ${target} tiap kali masuk waktu Maths...`,
+              `Suasana tegang kat meja makan: Bila ${target} tertekan sampai emosi terbabas...`
+            ],
+            hooks: [
+              `Pernah tak rasa dada sesak sebab nak kena semak homework Maths anak malam ni?`,
+              `Rasa macam mak ayah paling gagal bila terjerit lagi kat anak pasal soalan Maths...`,
+              `Momen bila sabar makin nipis, anak menangis, kita pulak tahan rasa bersalah kat meja makan...`,
+              `Siapa kat sini pernah rasa guilty gila lepas termarah anak pasal nombor dan sifir?`,
+              `Dua-dua menangis kat meja makan: Anak fobia nombor, kita pulak hilang sabar...`
+            ],
+            stories: [
+              `Sebagai ${target}, balik rumah penat-penat lepas tu kena hadap anak termenung depan buku latihan Maths memang boleh buat sabar kita menipis. Bila terjerit sikit, anak menangis, kita pulak rasa macam mak ayah yang paling gagal.\n\nSebenarnya bila fikir balik: ${rawIdea}. Bila nombor diterjemahkan dalam bentuk visual, anak tak rasa terancam dan kita pun tak perlu naik suara lagi.`,
+              `Jujur cakap, berapa ramai ${target} yang lepas marah anak pasal Matematik terus masuk bilik termenung rasa bersalah? Kita bukan nak marah, tapi kita penat dan buntu.\n\nKuncinya mudah: ${rawIdea}. Bila kita sediakan modul bergambar yang mesra minda budak, anak boleh buat sendiri tanpa perlu kita terpacak menjerit kat sebelah.`,
+              `Tengok muka anak berkerut tahan tangis depan buku latihan Matematik, hati kita sebagai ${target} hancur sangat. Kita tahu dia nak mencuba tapi fikiran dia dah 'blackout'.\n\nMasalahnya bukan anak degil: ${rawIdea}. Pendekatan visual ni menterjemahkan nombor kaku kepada sesuatu yang otak anak boleh nampak dan bayangkan dengan tenang.`
+            ],
+            solutions: [
+              `Inilah sebabnya modul visual Maths Klub ni sangat membantu mak ayah. Dari soalan ayat penyelesaian masalah yang panjang berjela, anak boleh selesaikan sendiri langkah demi langkah guna gambar rajah interaktif.`,
+              `Dengan Maths Klub, proses buat homework bukan lagi zon medan perang. Modul ni siap dengan pembayang grafik dan kuiz bintang yang buat anak rasa tengah bermain game, bukan kena denda.`,
+              `Modul Maths Klub wujud khas untuk pulihkan emosi belajar anak. Soalan ayat panjang dipotong kecil-kecil jadi gambar rajah interaktif supaya anak boleh berdikari.`
+            ],
+            ctas: [
+              `Korang yang geng dengan situasi ni, jom intip link Maths Klub kat bio i sekarang. Jangan biar meja makan bertukar jadi zon perang lagi!`,
+              `Jangan biar rasa bersalah tu berulang malam ni. Klik link kat bio profil i untuk intip modul visual mesra emosi Maths Klub sekarang.`,
+              `Sayangi emosi anak dan kesihatan mental kita. Tekan pautan rasmi Maths Klub kat bio i sebelum terlambat!`
+            ],
+            medias: [
+              `🎥 SCREEN RECORDING (9:16): Tunjukkan skrin phone anak tengah main kuiz visual Maths Klub sambil tersenyum, diiringi audio luahan santai.`,
+              `📸 PHOTO CAROUSEL: Slaid 1 gambar buku latihan bertulis rintihan mak-mak. Slaid 2-4 paparan skrin warna-warni latihan Maths Klub yang mudah.`,
+              `🎥 SCREEN RECORDING & VOICE OVER: Skrin tablet tunjuk fungsi 'drag and drop' jawapan visual Maths Klub dengan suara luahan ikhlas mak ayah.`
+            ]
+          },
+          reality: {
+            headlines: [
+              `Anak bukannya lembap, tapi cara suap soalan tu yang buat minda dorang "jem"!`,
+              `Realiti pedas untuk ${target}: Berhenti tuduh anak malas kalau cara ajar tu terlalu kaku!`,
+              `Kenapa 90% ${target} salah faham bila anak automatik shut down depan soalan ayat Maths?`,
+              `Bukan anak yang takde bakat nombor, soalan berbelit tu yang bunuh keyakinan dorang!`,
+              `Kebenaran yang patut ${target} tahu kenapa latihan teks panjang tak lagi sesuai untuk budak sekarang!`
+            ],
+            hooks: [
+              `Anak korang bukannya 'slow', cara ajar tu yang terlalu kaku!`,
+              `Berhenti salahkan anak kalau dorang automatik shut down bila nampak soalan Maths!`,
+              `Anak korang bukannya bodoh, cara soalan tu disuap yang buat otak dorang jem!`,
+              `Kenyataan keras: Menjerit dan paksa hafal takkan pernah buat anak pandai Maths!`,
+              `Otak budak zaman skrin bukannya fobia nombor, tapi dorang bendera putih bila nampak teks tebal!`
+            ],
+            stories: [
+              `Ramai ${target} ingat bila anak tak dapat jawab soalan penyelesaian masalah, anak tu lemah nombor. Hakikatnya tidak!\n\nRealitinya: ${rawIdea}. Otak budak generasi sekarang berkembang melalui rangsangan visual, bukan teks panjang berkoyan tanpa gambar rajah. Bila dipaksa baca deretan ayat tebal, automatik otak dorang 'shut down'.`,
+              `Kerap kali ${target} terlupa yang budak zaman sekarang hidup dalam era visual. Bila kita bagi kertas latihan hitam putih penuh dengan teks berbelit, otak dorang anggap itu bebanan berbahaya.\n\nSebab tu ${rawIdea}. Bila ditukar ke format interaktif bergambar, ketakutan dorang hilang dan minda dorang terus laju tangkap jalan kira.`,
+              `Kita selalu anggap budak sekarang tak fokus. Tapi cuba tengok: ${rawIdea}. Bila disuap bahan kaku zaman 90-an, memanglah budak cepat menguap dan cari alasan nak lari.`
+            ],
+            solutions: [
+              `Bila tukar guna kaedah Maths Klub, anak terus nampak jalan kira dengan jelas. Tak payah hafal formula kering, modul ni tukar nombor kaku jadi visual drag-and-drop yang sangat seronok.`,
+              `Modul Maths Klub buktikan yang Matematik bukan subjek teks tebal, tapi subjek visual! Setiap soalan penyelesaian masalah disediakan dengan pembayang grafik mesra pemikiran kanak-kanak.`,
+              `Maths Klub direka khas untuk meruntuhkan tembok fobia soalan ayat. Anak tak perlu pening kepala hadap teks tebal lagi bila semuanya dipecahkan jadi langkah bergambar.`
+            ],
+            ctas: [
+              `Tekan link kat bio i kalau korang nak selamatkan keyakinan anak sebelum gred exam jatuh merudum!`,
+              `Buka mata dan ubah kaedah sekarang. Singgah link kat bio profil i untuk tengok sendiri modul visual Maths Klub!`,
+              `Tinggalkan cara lapuk yang menyiksa anak. Klik pautan Maths Klub kat bio i sekarang tau!`
+            ],
+            medias: [
+              `🖼️ GAMBAR PERBANDINGAN: Slaid 1 tunjuk soalan teks tebal hitam putih (stres), Slaid 2 tunjuk paparan ceria & bergambar Maths Klub.`,
+              `🎥 REELS / TIKTOK DUAL SCREEN: Atas tunjuk muka berkerut buat latihan buku lama, bawah tunjuk Screen Recording modul Maths Klub santai.`,
+              `📸 INFOGRAFIK KONTRA: Gambar grafik ringkas bezakan 'Kaedah Hafal Kaku' vs 'Kaedah Visual Maths Klub'.`
+            ]
+          },
+          quickwin: {
+            headlines: [
+              `Trik 15 minit sehari yang ubah anak dari fobia Maths kepada seronok mengira!`,
+              `Macam mana ${target} yang sibuk boleh bantu anak faham soalan Maths bawah 15 minit!`,
+              `Hack mudah Maths: Cuma perlukan 10 minit sehari tanpa drama air mata kat rumah!`,
+              `Transformasi pantas: Dari termenung sejam kepada siap latihan Maths dalam 15 minit!`,
+              `Rahsia ringkas bagi ${target} yang balik kerja penat tapi nak anak laju kuasai nombor!`
+            ],
+            hooks: [
+              `Ini rahsia macam mana anak boleh faham soalan penyelesaian masalah dalam 15 minit!`,
+              `Tak perlu duduk berjam-jam paksa anak buat latihan Maths sampai menangis!`,
+              `Trik 15 minit sehari bagi anak seronok buat soalan Maths tanpa kena marah.`,
+              `I baru jumpa hack mudah bagi anak cepat faham soalan penyelesaian masalah Maths.`,
+              `Cuma tukar kaedah ni 10 minit sehari, tengok macam mana anak terus pandai mengira sendiri!`
+            ],
+            stories: [
+              `Untuk ${target} yang sibuk dan tak sempat nak duduk berjam-jam mengadap buku sekolah, korang patut tahu prinsip ni: ${rawIdea}.\n\nTak perlu paksa anak buat berpuluh-puluh lembaran kerja sampai menangis. Cukup luangkan 10 ke 15 minit sehari dengan latihan interaktif berasaskan gambar rajah.`,
+              `Ramai ${target} mengadu balik kerja dah penat, mana sempat nak ajar anak 2 jam setiap malam. Sebenarnya korang tak payah paksa lama-lama: ${rawIdea}.\n\nBelajar 15 minit tapi anak betul-betul faham konsep visual jauh lebih berkesan berbanding 2 jam duduk membebel kat sebelah anak.`,
+              `Nak bagi anak faham Matematik bukannya kena dera buat lembaran kerja tebal. Prinsip mudahnya: ${rawIdea}. Fokus pada pemahaman visual yang pantas dan menyeronokkan.`
+            ],
+            solutions: [
+              `Modul Maths Klub disusun khas dengan kuiz kumpul bintang dan visual step-by-step. Budak rasa macam tengah main game, padahal dorang tengah kuasai topik darab, bahagi dan pecahan!`,
+              `Dengan sistem micro-learning bergambar Maths Klub, anak cuma perlukan 15 minit sehari untuk selesaikan cabaran harian secara berdikari sambil mengumpul ganjaran.`,
+              `Maths Klub menterjemahkan konsep sukar kepada bentuk game interaktif visual. Anak cepat nampak jawapan dan automatik rasa bangga bila selesaikan soalan sendiri.`
+            ],
+            ctas: [
+              `Link modul visual Maths Klub ni i dah letak kat bio profil. Try tengok dulu, confirm rasa berbaloi sangat!`,
+              `Jimatkan masa dan tenaga korang malam ni. Klik link Maths Klub kat bio i sekarang untuk cuba!`,
+              `Jom dapatkan hack 15 minit Maths Klub ni di link bio profil i sekarang sebelum promosi tamat!`
+            ],
+            medias: [
+              `🎥 VIDEO TIMELAPSE / SCREEN RECORD: Paparan anak berjaya selesaikan 1 kuiz visual Maths Klub dalam masa bawah 1 minit.`,
+              `📸 SCREENSHOT CEPAT: Tangkapan skrin rekod markah anak yang dapat 'Full Stars' dalam modul kuiz Maths Klub.`,
+              `🎥 SCREEN RECORDING TIKTOK (9:16): Video pendek tunjuk animasi interaktif Maths Klub bila anak selesai jawab satu soalan pantas.`
+            ]
+          },
+          curiosity: {
+            headlines: [
+              `Rahsia yang cikgu sekolah jarang sempat nak cerita kat ${target}...`,
+              `Satu benda misteri pasal cara budak proses soalan Maths yang ramai ${target} tak perasan!`,
+              `Ini rahsia kenapa budak automatik mengantuk bila buka buku latihan Matematik...`,
+              `Penemuan pelik: Kenapa soalan Maths jadi mudah bila tukar bentuk gambar rajah?`,
+              `I pelik kenapa ramai ${target} tak tahu helah visual Maths yang satu ni...`
+            ],
+            hooks: [
+              `Korang perasan tak satu rahsia kenapa budak cepat mengantuk bila buat homework Maths?`,
+              `Ini rahsia kenapa anak fobia soalan penyelesaian masalah yang cikgu tak sempat cerita!`,
+              `Satu benda misteri pasal cara budak mengira nombor bila nampak soalan ayat tebal...`,
+              `I baru jumpa rahsia pelik kenapa budak automatik 'shut down' bila nampak latihan Maths.`,
+              `Terkejut bila tahu rahsia sebenar punca budak selalu sangkut pada soalan penyelesaian masalah!`
+            ],
+            stories: [
+              `Masa i borak dengan kawan-kawan yang juga ${target}, ramai perasan anak cepat menguap dan lari bila nampak buku latihan. Rupanya puncanya satu jer: ${rawIdea}.\n\nBila mata budak nampak teks padat tanpa panduan visual, otak kiri dorang bekerja dua kali ganda sampai mental dorang burnout dalam masa 5 minit pertama.`,
+              `Pernah terfikir tak kenapa budak boleh hafal nama beratus watak kartun tapi sifir 3 pun sangkut? Sebabnya mudah: ${rawIdea}.\n\nOtak budak direka untuk mengingat bentuk visual, warna dan animasi — bukannya susunan nombor kaku yang dibariskan atas kertas.`,
+              `Ada satu fakta neurosains pembelajaran yang ramai ${target} terlepas pandang: ${rawIdea}. Bila pendedahan visual diberikan dahulu, bahagian logik otak budak akan terbuka secara semulajadi.`
+            ],
+            solutions: [
+              `Sebab tu wujudnya Maths Klub! Modul ni direka khas sebagai jambatan visual supaya anak boleh 'nampak' pola nombor tu sebelum buat kira-kira. Bila dah nampak gambar rajah, fobia terus hilang.`,
+              `Maths Klub menggunakan kaedah 'visual scaffolding' yang membimbing pemikiran anak melalui blok rajah warna-warni, bukan teks kering yang membosankan.`,
+              `Inilah rahsia sebenar modul Maths Klub: menterjemahkan soalan ayat penyelesaian masalah yang rumit menjadi gambar rajah interaktif yang sangat mudah difahami.`
+            ],
+            ctas: [
+              `Korang nak cuba kaedah visual rahsia ni kat rumah? Klik pautan rasmi kat bio i sekarang tau!`,
+              `Jangan biar anak ketinggalan rahsia visual ni. Pautan penuh Maths Klub ada di bio profil i!`,
+              `Nak bongkar modul visual Maths Klub ni untuk anak korang? Singgah link kat bio i sekarang!`
+            ],
+            medias: [
+              `📸 THREADS / CAROUSEL SCREENSHOT: Tangkapan skrin soalan Maths Klub yang ada gambar blok warna-warni yang mudah difahami.`,
+              `🎥 SCREEN RECORDING & VOICE OVER: Video gerak-gerik modul Maths Klub mendedahkan fungsi rahsia pembayang visual.`,
+              `📷 GAMBAR MEJA STUDY: Foto tablet paparkan kuiz visual Maths Klub di sebelah cawan kopi waktu santai.`
+            ]
+          },
+          direct: {
+            headlines: [
+              `Grab modul Maths Klub sekarang untuk selesaikan fobia nombor anak dari rumah!`,
+              `Tawaran istimewa untuk ${target}: Akses penuh modul visual Maths Klub sebelum exam tiba!`,
+              `Jangan tunggu gred exam jatuh 'E': Dapatkan set lengkap Maths Klub sekarang juga!`,
+              `Solusi tuntas buat ${target}: Set latihan visual & kuiz bergambar Maths Klub kini dibuka!`,
+              `Pelaburan pendidikan paling berbaloi: Miliki modul interaktif Maths Klub hari ini!`
+            ],
+            hooks: [
+              `Jangan tunggu sampai gred Maths anak 'E' baru nak kalang-kabut cari tuisyen!`,
+              `Dapatkan modul Maths Klub sekarang sebelum anak terus fobia dengan nombor!`,
+              `Tak payah fikir panjang, grab terus set Maths Klub untuk selamatkan minat anak!`,
+              `Duit tuisyen berhabis tapi gred anak tetap sama? Cuba modul lengkap Maths Klub ni!`,
+              `Ini pelaburan paling berbaloi untuk pendidikan anak korang dari rumah!`
+            ],
+            stories: [
+              `Khas buat ${target} yang nak bantu anak kuasai Matematik tanpa pening kepala. Ingat: ${rawIdea}.\n\nDaripada habis beratus ringgit setiap bulan tapi anak tetap fobia dengan soalan penyelesaian masalah, lebih baik sediakan modul interaktif yang terbukti berkesan.`,
+              `Untuk ${target} yang tengah cari solusi lengkap untuk anak kuasai soalan penyelesaian masalah: ${rawIdea}.\n\nMaths Klub bukan sekadar latihan biasa, tapi satu pakej pembelajaran visual lengkap dari rumah yang bantu anak faham konsep asas nombor tanpa tekanan.`,
+              `Bila masuk musim peperiksaan, ${target} yang paling rasa nak demam bila tengok buku latihan anak kosong. Ingat pesanan ni: ${rawIdea}. Bertindak sekarang sebelum fobia anak bertambah parah.`
+            ],
+            solutions: [
+              `Di dalam Maths Klub, anak akan dapat akses penuh kepada latihan visual langkah demi langkah, sistem kuiz bergambar kumpul bintang, dan nota padat soalan penyelesaian masalah yang mudah difahami.`,
+              `Pakej Maths Klub didatangkan lengkap dengan modul soalan berasaskan grafik, kaedah drag-and-drop interaktif, panduan langkah demi langkah, dan latihan tanpa rasa bosan.`,
+              `Dengan Maths Klub, anak anda dapat akses modul latihan interaktif, nota visual bergambar, dan sistem penilaian santai yang confirm buat anak seronok mengira.`
+            ],
+            ctas: [
+              `Dapatkan akses Maths Klub sekarang melalui link rasmi di bio profil i sebelum promosi tamat!`,
+              `Klik pautan rasmi kat bio profil i sekarang untuk grab tawaran istimewa modul Maths Klub!`,
+              `Beli sekarang di link bio i sebelum kuota promosi Maths Klub ditutup!`
+            ],
+            medias: [
+              `🖼️ BANNER / POSTER IKLAN: Gambar kemas skrin modul Maths Klub pada tablet berserta teks tawaran istimewa.`,
+              `📸 SCREENSHOT CHAT TESTIMONI: Tangkapan skrin maklum balas pelanggan sebenar yang berpuas hati dengan modul Maths Klub.`,
+              `🖼️ POSTER PROMOSI DIGITAL: Grafik poster ringkas paparkan faedah dan isi kandungan lengkap modul Maths Klub.`
+            ]
+          }
+        };
+
+        const angles = [
+          {
+            id: 1,
+            tag: 'Angle Emosi & Rasa Bersalah (Guilt)',
+            badgeColor: 'bg-[#E62E7A] text-white',
+            borderColor: 'border-[#E62E7A]',
+            headline: pick(DYNAMIC_ANGLE_POOLS.guilt.headlines),
+            coreThought: `Fokus pada detik emosi dan rasa bersalah ${target} sebelum temui penyelesaian visual melalui idea "${rawIdea}".`,
+            hook: pick(DYNAMIC_ANGLE_POOLS.guilt.hooks),
+            story: pick(DYNAMIC_ANGLE_POOLS.guilt.stories),
+            solution: pick(DYNAMIC_ANGLE_POOLS.guilt.solutions),
+            cta: pick(DYNAMIC_ANGLE_POOLS.guilt.ctas),
+            media: pick(DYNAMIC_ANGLE_POOLS.guilt.medias)
+          },
+          {
+            id: 2,
+            tag: 'Angle Realiti & Kontra (Reality Check)',
+            badgeColor: 'bg-[#FF551C] text-white',
+            borderColor: 'border-[#FF551C]',
+            headline: pick(DYNAMIC_ANGLE_POOLS.reality.headlines),
+            coreThought: `Mendedahkan kesilapan persepsi ${target} dan membongkar punca sebenar anak blur berkait "${rawIdea}".`,
+            hook: pick(DYNAMIC_ANGLE_POOLS.reality.hooks),
+            story: pick(DYNAMIC_ANGLE_POOLS.reality.stories),
+            solution: pick(DYNAMIC_ANGLE_POOLS.reality.solutions),
+            cta: pick(DYNAMIC_ANGLE_POOLS.reality.ctas),
+            media: pick(DYNAMIC_ANGLE_POOLS.reality.medias)
+          },
+          {
+            id: 3,
+            tag: 'Angle Transformasi Pantas (Quick Win)',
+            badgeColor: 'bg-[#38A854] text-white',
+            borderColor: 'border-[#38A854]',
+            headline: pick(DYNAMIC_ANGLE_POOLS.quickwin.headlines),
+            coreThought: `Menunjukkan hasil pantas kepada ${target} yang tiada masa dengan mengaplikasikan "${rawIdea}".`,
+            hook: pick(DYNAMIC_ANGLE_POOLS.quickwin.hooks),
+            story: pick(DYNAMIC_ANGLE_POOLS.quickwin.stories),
+            solution: pick(DYNAMIC_ANGLE_POOLS.quickwin.solutions),
+            cta: pick(DYNAMIC_ANGLE_POOLS.quickwin.ctas),
+            media: pick(DYNAMIC_ANGLE_POOLS.quickwin.medias)
+          },
+          {
+            id: 4,
+            tag: 'Angle Rasa Ingin Tahu / Rahsia (Curiosity)',
+            badgeColor: 'bg-[#7239C7] text-white',
+            borderColor: 'border-[#7239C7]',
+            headline: pick(DYNAMIC_ANGLE_POOLS.curiosity.headlines),
+            coreThought: `Membuka rahsia tersembunyi mengenai fitrah otak anak yang berkaitan dengan "${rawIdea}".`,
+            hook: pick(DYNAMIC_ANGLE_POOLS.curiosity.hooks),
+            story: pick(DYNAMIC_ANGLE_POOLS.curiosity.stories),
+            solution: pick(DYNAMIC_ANGLE_POOLS.curiosity.solutions),
+            cta: pick(DYNAMIC_ANGLE_POOLS.curiosity.ctas),
+            media: pick(DYNAMIC_ANGLE_POOLS.curiosity.medias)
+          },
+          {
+            id: 5,
+            tag: 'Angle Hard Selling Terus (Direct Offer)',
+            badgeColor: 'bg-[#F04134] text-white',
+            borderColor: 'border-[#F04134]',
+            headline: pick(DYNAMIC_ANGLE_POOLS.direct.headlines),
+            coreThought: `Menjual terus pakej lengkap Maths Klub sebagai solusi tuntas bagi ${target} berasaskan idea "${rawIdea}".`,
+            hook: pick(DYNAMIC_ANGLE_POOLS.direct.hooks),
+            story: pick(DYNAMIC_ANGLE_POOLS.direct.stories),
+            solution: pick(DYNAMIC_ANGLE_POOLS.direct.solutions),
+            cta: pick(DYNAMIC_ANGLE_POOLS.direct.ctas),
+            media: pick(DYNAMIC_ANGLE_POOLS.direct.medias)
+          }
+        ];
+
+        setGeneratedAngles(angles);
+        setSelectedAngleIndex(0);
+        setExpandedContent(angles[0]);
+      };
+
+      const handleSelectAngle = (index) => {
+        setSelectedAngleIndex(index);
+        setExpandedContent(generatedAngles[index]);
+      };
+
+      const getExpandedCopyText = () => {
+        if (!expandedContent) return "";
+        return `🔥 [HOOK]:\n${expandedContent.hook}\n\n📖 [KONTEN / PENCERITAAN]:\n${expandedContent.story}\n\n💡 [SOLUSI MATHS KLUB]:\n${expandedContent.solution}\n\n✅ [CTA]:\n${expandedContent.cta}\n\n🎬 [CADANGAN MEDIA]:\n${expandedContent.media}`;
+      };
+
+      const handleCopyExpanded = () => {
+        const fullText = getExpandedCopyText();
+        const textArea = document.createElement("textarea");
+        textArea.value = fullText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          setCopiedDump(true);
+          setTimeout(() => setCopiedDump(false), 2000);
+        } catch (err) {
+          console.error('Salin gagal', err);
+        }
+        document.body.removeChild(textArea);
+      };
+
+      return (
+        <div className="min-h-screen bg-[#F8FAFC] text-slate-800 font-sans p-3 sm:p-6 md:p-8 flex flex-col justify-between">
+          <div>
+            {/* Header Banner - Solid Flat Indigo (#4358C6) without any gradient */}
+            <div className="max-w-6xl mx-auto mb-4">
+              <div className="bg-[#4358C6] rounded-2xl p-6 sm:p-7 shadow-lg relative overflow-hidden text-white border-2 border-[#3F51B5]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#2196F3] rounded-full text-white text-xs font-bold uppercase tracking-wider mb-2.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#FFEA3D]"></span>
+                      🔥 Sistem Penjana Ayat Jualan Affiliate
+                    </div>
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+                      Content Generator Engine Affiliate Maths Klub
+                    </h1>
+                    <p className="text-white/95 text-sm sm:text-base mt-1.5 max-w-2xl font-semibold">
+                      Your content creation buddy.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* TAB NAVIGASI UTAMA (PILIHAN PAGE) */}
+            <div className="max-w-6xl mx-auto mb-6 flex items-center gap-2.5 bg-white p-2 rounded-2xl border-2 border-slate-200 shadow-sm">
+              <button
+                onClick={() => setActiveTab('generator')}
+                className={`flex-1 py-3 px-4 rounded-xl font-extrabold text-sm sm:text-base transition-all flex items-center justify-center gap-2 border-2 ${
+                  activeTab === 'generator'
+                    ? 'bg-[#4358C6] text-white border-[#4358C6] shadow-md'
+                    : 'bg-slate-50 text-slate-600 border-transparent hover:bg-slate-100 font-bold'
+                }`}
+              >
+                <span>⚙️</span>
+                <span>Content Generator</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('ideadump')}
+                className={`flex-1 py-3 px-4 rounded-xl font-extrabold text-sm sm:text-base transition-all flex items-center justify-center gap-2 border-2 ${
+                  activeTab === 'ideadump'
+                    ? 'bg-[#FF551C] text-white border-[#FF551C] shadow-md'
+                    : 'bg-slate-50 text-slate-600 border-transparent hover:bg-slate-100 font-bold'
+                }`}
+              >
+                <span>💡</span>
+                <span>Idea Dump</span>
+              </button>
+            </div>
+
+            {/* KANDUNGAN PAGE 1: CONTENT GENERATOR ASAL */}
+            {activeTab === 'generator' && (
+              <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                {/* Controls Panel (Left) */}
+                <div className="lg:col-span-5 bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-6 shadow-md flex flex-col gap-5">
+                  <div className="flex items-center justify-between border-b-2 border-slate-100 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[#4358C6] font-bold text-lg">⚙️</span>
+                      <h2 className="text-lg font-extrabold text-slate-800">Content Settings</h2>
+                    </div>
+                  </div>
+
+                  {/* 1. SELLER PERSPECTIVE */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#4358C6] mb-2 flex items-center gap-1.5">
+                      <span>👤</span> 1. Sudut Pandang Anda (Role)
+                    </label>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {[
+                        { 
+                          id: 'NonParent', 
+                          label: 'Bujang / Tiada Anak', 
+                          sub: 'Pemerhati / Anak Buah',
+                          activeClass: 'bg-[#FFB300] text-slate-900 border-[#FFB300]'
+                        },
+                        { 
+                          id: 'Parent', 
+                          label: 'Mak / Ayah', 
+                          sub: 'Pengalaman Anak',
+                          activeClass: 'bg-[#E62E7A] text-white border-[#E62E7A]'
+                        },
+                        { 
+                          id: 'Teacher', 
+                          label: 'Cikgu / Tutor', 
+                          sub: 'Bahan PdP Kelas',
+                          activeClass: 'bg-[#00B4D8] text-white border-[#00B4D8]'
+                        }
+                      ].map((role) => (
+                        <button
+                          key={role.id}
+                          onClick={() => {
+                            setSellerPerspective(role.id);
+                            if (role.id === 'Teacher') {
+                              setAudienceAngle('Cikgu (Bahan PdP / Pembelajaran)');
+                            }
+                          }}
+                          className={`p-2.5 rounded-xl border-2 text-center transition-all ${
+                            sellerPerspective === role.id
+                              ? `${role.activeClass} font-extrabold shadow-sm`
+                              : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300 font-medium'
+                          }`}
+                        >
+                          <div className="text-xs font-bold leading-tight">{role.label}</div>
+                          <div className={`text-[9px] mt-0.5 ${sellerPerspective === role.id ? 'opacity-90' : 'text-slate-500'}`}>{role.sub}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 2. CONTENT TYPE */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#00ABA9] mb-2 flex items-center gap-1.5">
+                      <span>💡</span> 2. Jenis Content (Content Type)
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { 
+                          id: 'Tips', 
+                          label: 'Tips & Edukasi', 
+                          icon: '💡', 
+                          desc: 'Bina Kepercayaan',
+                          activeClass: 'bg-[#38A854] text-white border-[#38A854]'
+                        },
+                        { 
+                          id: 'Clarity', 
+                          label: 'Clarity & Mitos', 
+                          icon: '❓', 
+                          desc: 'Betulkan Persepsi',
+                          activeClass: 'bg-[#7239C7] text-white border-[#7239C7]'
+                        },
+                        { 
+                          id: 'SoftSelling', 
+                          label: 'Soft Selling', 
+                          icon: '🛍️', 
+                          desc: 'Penceritaan & Solusi',
+                          activeClass: 'bg-[#FF1768] text-white border-[#FF1768]'
+                        },
+                        { 
+                          id: 'Relatable', 
+                          label: 'Engagement', 
+                          icon: '😊', 
+                          desc: 'Luahan & Komen',
+                          activeClass: 'bg-[#FFEA3D] text-slate-900 border-[#FFEA3D]'
+                        },
+                        { 
+                          id: 'HardSelling', 
+                          label: 'Hard Selling', 
+                          icon: '🔥', 
+                          desc: 'Terus Menjual / Isi Modul',
+                          activeClass: 'bg-[#F04134] text-white border-[#F04134]'
+                        }
+                      ].map((type) => (
+                        <button
+                          key={type.id}
+                          onClick={() => setContentType(type.id)}
+                          className={`p-2.5 rounded-xl border-2 text-left transition-all flex flex-col ${
+                            contentType === type.id
+                              ? `${type.activeClass} font-extrabold shadow-sm`
+                              : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300 font-medium'
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5 font-bold text-xs sm:text-sm">
+                            <span>{type.icon}</span>
+                            <span>{type.label}</span>
+                          </div>
+                          <div className={`text-[10px] mt-0.5 font-semibold ${contentType === type.id ? 'opacity-90' : 'text-slate-500'}`}>{type.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 3. HOOK CATEGORY */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#FF551C] mb-2 flex items-center gap-1.5">
+                      <span>🔥</span> 3. Kategori Hook
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { 
+                          id: 'Curiosity', 
+                          label: 'Curiosity', 
+                          desc: 'Sifat Ingin Tahu / Rahsia',
+                          activeClass: 'bg-[#48A2EB] text-white border-[#48A2EB]'
+                        },
+                        { 
+                          id: 'Relatable', 
+                          label: 'Relatable', 
+                          desc: 'Geng Mak-Mak / Emosi',
+                          activeClass: 'bg-[#A534B5] text-white border-[#A534B5]'
+                        },
+                        { 
+                          id: 'PainPoint', 
+                          label: 'Pain Point', 
+                          desc: 'Fobia / Stress / Homework',
+                          activeClass: 'bg-[#FF551C] text-white border-[#FF551C]'
+                        },
+                        { 
+                          id: 'BoldStatement', 
+                          label: 'Bold Statement', 
+                          desc: 'Pernyataan Berani',
+                          activeClass: 'bg-[#F04134] text-white border-[#F04134]'
+                        }
+                      ].map((cat) => (
+                        <button
+                          key={cat.id}
+                          onClick={() => setHookCategory(cat.id)}
+                          className={`p-2.5 rounded-xl border-2 text-left transition-all ${
+                            hookCategory === cat.id
+                              ? `${cat.activeClass} font-extrabold shadow-sm`
+                              : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300 font-medium'
+                          }`}
+                        >
+                          <div className="font-bold text-xs sm:text-sm">{cat.label}</div>
+                          <div className={`text-[10px] mt-0.5 font-semibold ${hookCategory === cat.id ? 'opacity-90' : 'text-slate-500'}`}>{cat.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 4. TARGET AUDIENCE */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#4358C6] mb-2 flex items-center gap-1.5">
+                      <span>🎯</span> 4. Sasaran Audience / Sudut Pandang
+                    </label>
+                    <select
+                      value={audienceAngle}
+                      onChange={(e) => setAudienceAngle(e.target.value)}
+                      className="w-full bg-slate-50 border-2 border-slate-300 hover:border-[#2196F3] rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-[#2196F3] focus:bg-white font-semibold transition-all shadow-sm"
+                    >
+                      <option value="Mak Anak Fobia Maths">Mak Anak Fobia Maths / Lemah Nombor</option>
+                      <option value="Working Mom Penat">Working Mom Penat Balik Kerja</option>
+                      <option value="Ketagihan Screen Time">Ketagihan Screen Time / Main Phone</option>
+                      <option value="Tertekan Homework / Tengking Anak">Tertekan Homework / Geram, Termarah & Tengking</option>
+                      <option value="Cikgu (Bahan PdP / Pembelajaran)">Cikgu (Bahan PdP / Pembelajaran)</option>
+                    </select>
+                  </div>
+
+                  {/* 5. CTA OPTION */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#2196F3] mb-2 flex items-center gap-1.5">
+                      <span>🔗</span> 5. Pilihan Call To Action (CTA)
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { 
+                          id: 'LINK_BIO', 
+                          label: 'CTA Ke Link Bio', 
+                          sub: 'Ajakan terus ke pautan profil',
+                          activeClass: 'bg-[#2196F3] text-white border-[#2196F3]'
+                        },
+                        { 
+                          id: 'ENGAGEMENT', 
+                          label: 'CTA Engagement & Komen', 
+                          sub: 'Soalan bina perbualan/komen',
+                          activeClass: 'bg-[#E62E7A] text-white border-[#E62E7A]'
+                        }
+                      ].map((cta) => (
+                        <button
+                          key={cta.id}
+                          onClick={() => setCtaOption(cta.id)}
+                          className={`p-2.5 rounded-xl border-2 text-center transition-all ${
+                            ctaOption === cta.id
+                              ? `${cta.activeClass} font-extrabold shadow-sm`
+                              : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300 font-medium'
+                          }`}
+                        >
+                          <div className="font-bold text-xs">{cta.label}</div>
+                          <div className={`text-[10px] mt-0.5 font-semibold ${ctaOption === cta.id ? 'opacity-90' : 'text-slate-500'}`}>{cta.sub}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 6. PLATFORM SELECTION */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#A534B5] mb-2 flex items-center gap-1.5">
+                      <span>📱</span> 6. Saluran Media Sosial
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {[
+                        { id: 'TikTok Caption', active: 'bg-[#FF1768] text-white border-[#FF1768]' },
+                        { id: 'Threads', active: 'bg-[#00ABA9] text-white border-[#00ABA9]' },
+                        { id: 'FB Group', active: 'bg-[#4358C6] text-white border-[#4358C6]' },
+                        { id: 'WhatsApp', active: 'bg-[#7CB342] text-white border-[#7CB342]' }
+                      ].map((plat) => (
+                        <button
+                          key={plat.id}
+                          onClick={() => setPlatform(plat.id)}
+                          className={`py-2 px-2 rounded-lg border-2 text-xs font-bold transition-all text-center ${
+                            platform === plat.id
+                              ? `${plat.active} shadow-sm`
+                              : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
+                          }`}
+                        >
+                          {plat.id}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Generate Button */}
+                  <button
+                    type="button"
+                    onClick={generateUltraDeepText}
+                    className={`w-full mt-2 py-3.5 px-4 bg-[#FF551C] hover:bg-[#F04134] text-white font-extrabold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-95 border-2 border-[#FF551C] ${
+                      isRefreshing ? 'opacity-80 scale-98' : ''
+                    }`}
+                  >
+                    <span className={`text-lg ${isRefreshing ? 'animate-spin' : ''}`}>🔄</span>
+                    <span className="tracking-wide text-white">Jana Content Baru</span>
+                  </button>
+                </div>
+
+                {/* Output Display Area (Right) */}
+                <div className="lg:col-span-7 flex flex-col gap-4">
+                  
+                  {/* Card Header & Controls */}
+                  <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-6 shadow-md flex-1 flex flex-col">
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-slate-100 pb-4 mb-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[#4358C6] font-bold text-lg">📖</span>
+                        <h3 className="font-extrabold text-slate-800 text-base sm:text-lg">Hasil Ayat Copywriting</h3>
+                        <span className="text-xs bg-[#FF1768] text-white px-3 py-0.5 rounded-full font-extrabold">
+                          {platform}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={handleCopy}
+                          className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#4358C6] hover:bg-[#3F51B5] text-white rounded-lg text-xs font-extrabold transition-all active:scale-95 shadow-sm"
+                          title="Salin semua teks"
+                        >
+                          {copied ? (
+                            <>
+                              <span className="text-[#FFEA3D] font-bold">✓</span>
+                              <span className="text-[#FFEA3D] font-bold">Tersalin!</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>📋</span>
+                              <span>Salin Semua</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Content Display Blocks */}
+                    {generatedOutput ? (
+                      <div className="space-y-4 flex-1">
+                        
+                        {/* 1. HOOK BLOCK */}
+                        <div className="bg-slate-50 border-2 border-[#F04134] rounded-xl p-4 relative shadow-sm">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-[11px] font-extrabold uppercase tracking-widest text-white bg-[#F04134] px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                              🔥 [1. HOOK - {hookCategory}]
+                            </span>
+                            <span className="text-[10px] text-[#F04134] font-bold">Penarik Perhatian 3 Saat Pertama</span>
+                          </div>
+                          <p className="text-slate-900 font-bold text-sm sm:text-base leading-relaxed whitespace-pre-line pt-1">
+                            {generatedOutput.hook}
+                          </p>
+                        </div>
+
+                        {/* 2. BODY BLOCK */}
+                        <div className="bg-slate-50 border-2 border-[#7239C7] rounded-xl p-4 relative shadow-sm">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-[11px] font-extrabold uppercase tracking-widest text-white bg-[#7239C7] px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                              📈 [2. KONTEN UTAMA - {contentType}]
+                            </span>
+                            <span className="text-[10px] text-[#7239C7] font-semibold">Penceritaan Emosi & Penyelesaian</span>
+                          </div>
+                          <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-line pt-1 font-semibold">
+                            {generatedOutput.body}
+                          </p>
+                        </div>
+
+                        {/* 3. CTA BLOCK */}
+                        <div className="bg-slate-50 border-2 border-[#FFB300] rounded-xl p-4 relative shadow-sm">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-[11px] font-extrabold uppercase tracking-widest text-slate-900 bg-[#FFB300] px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                              ✅ [3. CALL TO ACTION - {ctaOption === 'LINK_BIO' ? 'Link Bio' : 'Engagement'}]
+                            </span>
+                            <span className="text-[10px] text-[#FFB300] font-bold">Ajakan Tindakan</span>
+                          </div>
+                          <p className="text-slate-800 font-bold text-sm leading-relaxed whitespace-pre-line pt-1">
+                            {generatedOutput.cta}
+                          </p>
+                        </div>
+
+                        {/* 4. MEDIA SUGGESTION BLOCK */}
+                        <div className="bg-slate-50 border-2 border-[#00ABA9] rounded-xl p-4 relative shadow-sm">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-[11px] font-extrabold uppercase tracking-widest text-white bg-[#00ABA9] px-2.5 py-0.5 rounded-md flex items-center gap-1 font-bold">
+                              🎬 {getMediaHeaderTitle()}
+                            </span>
+                            <span className="text-[10px] text-[#00ABA9] font-bold">Panduan Visual {platform}</span>
+                          </div>
+                          <p className="text-slate-700 text-xs sm:text-sm leading-relaxed pt-1 font-semibold">
+                            {generatedOutput.media}
+                          </p>
+                        </div>
+
+                      </div>
+                    ) : (
+                      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400">
+                        <span className="text-4xl mb-3 animate-pulse">📚</span>
+                        <p className="text-sm font-semibold">Sila pilih parameter untuk menjana kandungan baru.</p>
+                      </div>
+                    )}
+
+                    {/* Quick Tips Footer */}
+                    <div className="mt-5 pt-4 border-t-2 border-slate-100 bg-slate-50 -mx-4 -mb-4 p-4 rounded-b-2xl flex items-center justify-between text-xs text-slate-700 font-medium">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#38A854] animate-ping"></span>
+                        <span>Setiap kali anda menekan butang, enjin membina frasa berbeza secara dinamik.</span>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {/* Rules Checklist Card */}
+                  <div className="bg-white border-2 border-slate-200 rounded-xl p-4 text-xs text-slate-700 shadow-sm">
+                    <div className="font-extrabold text-[#4358C6] mb-2.5 flex items-center gap-1.5">
+                      <span>💖</span> Panduan Nada Suara Mesra Parent, Affiliate & Cikgu
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+                      <div className="bg-slate-50 p-2 rounded-lg border-2 border-[#00B4D8] font-semibold">
+                        <span className="text-[#00B4D8] font-extrabold">✓ Guna:</span> i, anak buah i, akak i, kawan office
+                      </div>
+                      <div className="bg-slate-50 p-2 rounded-lg border-2 border-[#FFB300] font-semibold">
+                        <span className="text-[#FFB300] font-extrabold">✓ Guna:</span> stress, fobia, geram, termarah, PdP
+                      </div>
+                      <div className="bg-slate-50 p-2 rounded-lg border-2 border-[#F04134] font-semibold">
+                        <span className="text-[#F04134] font-extrabold">✗ Elak:</span> "Anda" (terlalu kaku/formal)
+                      </div>
+                      <div className="bg-slate-50 p-2 rounded-lg border-2 border-[#7239C7] font-semibold">
+                        <span className="text-[#7239C7] font-extrabold">✗ Elak:</span> "Oleh itu", "Kesimpulannya"
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            )}
+
+            {/* KANDUNGAN PAGE 2: IDEA DUMP */}
+            {activeTab === 'ideadump' && (
+              <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                {/* Panel Kiri: Input Callout & Ruang Idea */}
+                <div className="lg:col-span-5 bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-6 shadow-md flex flex-col gap-5">
+                  <div className="flex items-center justify-between border-b-2 border-slate-100 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[#FF551C] font-bold text-xl">💡</span>
+                      <h2 className="text-lg font-extrabold text-slate-800">Ruang Idea Dump</h2>
+                    </div>
+                    <span className="text-[11px] font-bold text-white bg-[#FF551C] px-3 py-1 rounded-full">
+                      5 Angle Multiplier
+                    </span>
+                  </div>
+
+                  {/* 1. Ruang Callout Sasaran Customer */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#4358C6] mb-2 flex items-center justify-between">
+                      <span className="flex items-center gap-1.5">
+                        <span>🎯</span> 1. Callout Sasaran Customer (Target Audience)
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-semibold">Wajib isi</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={targetAudienceInput}
+                      onChange={(e) => setTargetAudienceInput(e.target.value)}
+                      placeholder="Contoh: Ibu suri rumah yang ada anak darjah 1..."
+                      className="w-full bg-slate-50 border-2 border-slate-300 hover:border-[#4358C6] focus:border-[#4358C6] focus:bg-white rounded-xl px-3.5 py-3 text-sm text-slate-800 font-bold placeholder:text-slate-400 placeholder:font-normal transition-all shadow-sm focus:outline-none"
+                    />
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {[
+                        "Ibu suri rumah anak darjah 1",
+                        "Working mom balik kerja penat",
+                        "Mak-mak anak fobia sifir & darab",
+                        "Parent anak ketagih main phone"
+                      ].map((sample) => (
+                        <button
+                          key={sample}
+                          type="button"
+                          onClick={() => setTargetAudienceInput(sample)}
+                          className="text-[10px] bg-slate-100 hover:bg-[#E0F2F4] text-slate-600 hover:text-[#00ABA9] font-bold px-2.5 py-1 rounded-lg border border-slate-200 transition-all"
+                        >
+                          + {sample}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 2. Ruang Idea Mentah */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#00ABA9] mb-2 flex items-center justify-between">
+                      <span className="flex items-center gap-1.5">
+                        <span>📝</span> 2. Ruang Idea Mentah Anda
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-semibold">Tulis bebas</span>
+                    </label>
+                    <textarea
+                      rows={5}
+                      value={rawIdeaInput}
+                      onChange={(e) => setRawIdeaInput(e.target.value)}
+                      placeholder="Taip apa-apa idea spontan korang kat sini... Contoh: Anak sebenarnya tak malas tapi dorang takut bila tengok soalan teks panjang. Bila tukar ke visual gambar rajah terus laju dorang mengira."
+                      className="w-full bg-slate-50 border-2 border-slate-300 hover:border-[#00ABA9] focus:border-[#00ABA9] focus:bg-white rounded-xl p-3.5 text-sm text-slate-800 font-semibold placeholder:text-slate-400 placeholder:font-normal transition-all shadow-sm focus:outline-none leading-relaxed"
+                    ></textarea>
+                  </div>
+
+                  {/* Butang Jana 5 Angle */}
+                  <button
+                    type="button"
+                    onClick={handleGenerateIdeaDump}
+                    className={`w-full py-3.5 px-4 bg-[#FF551C] hover:bg-[#F04134] text-white font-extrabold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-95 border-2 border-[#FF551C] ${
+                      isDumping ? 'opacity-80 scale-98' : ''
+                    }`}
+                  >
+                    <span className={`text-lg ${isDumping ? 'animate-spin' : ''}`}>⚡</span>
+                    <span className="tracking-wide text-white">Jana 5 Angle Content</span>
+                  </button>
+
+                  <div className="bg-slate-50 border-2 border-slate-200 rounded-xl p-3 text-xs text-slate-600 font-medium">
+                    <span className="font-extrabold text-[#4358C6]">💡 Cara Guna:</span> Taip sasaran & idea mentah anda, tekan butang di atas. Sistem akan kembangkan kepada 5 sudut pandang (*angles*) berbeza secara automatik.
+                  </div>
+                </div>
+
+                {/* Panel Kanan: Senarai 5 Angle & Preview Content Lengkap */}
+                <div className="lg:col-span-7 flex flex-col gap-4">
+                  
+                  {/* Kad 5 Angle Pilihan */}
+                  <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-6 shadow-md flex flex-col">
+                    <div className="flex items-center justify-between border-b-2 border-slate-100 pb-3 mb-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[#4358C6] font-bold text-lg">🔀</span>
+                        <h3 className="font-extrabold text-slate-800 text-base sm:text-lg">5 Angle Content Unik</h3>
+                      </div>
+                      <span className="text-xs bg-[#FFEA3D] text-slate-900 px-3 py-1 rounded-full font-extrabold">
+                        Klik mana-mana angle untuk kembangkan 👇
+                      </span>
+                    </div>
+
+                    {generatedAngles.length > 0 ? (
+                      <div className="space-y-2.5">
+                        {generatedAngles.map((angle, idx) => (
+                          <button
+                            key={angle.id}
+                            onClick={() => handleSelectAngle(idx)}
+                            className={`w-full text-left p-3.5 rounded-xl border-2 transition-all flex flex-col gap-1.5 ${
+                              selectedAngleIndex === idx
+                                ? `bg-slate-50 ${angle.borderColor} shadow-md ring-2 ring-[#4358C6]/20`
+                                : 'bg-slate-50 border-slate-200 hover:border-slate-300 opacity-90'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-md ${angle.badgeColor}`}>
+                                Angle #{idx + 1}: {angle.tag}
+                              </span>
+                              {selectedAngleIndex === idx && (
+                                <span className="text-xs font-bold text-[#4358C6] flex items-center gap-1">
+                                  <span>Sedang Dipaparkan</span>
+                                  <span>✓</span>
+                                </span>
+                              )}
+                            </div>
+                            <div className="font-extrabold text-slate-800 text-sm sm:text-base leading-snug">
+                              {angle.headline}
+                            </div>
+                            <div className="text-xs text-slate-500 font-medium">
+                              {angle.coreThought}
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="p-8 text-center text-slate-400 flex flex-col items-center justify-center">
+                        <span className="text-4xl mb-2">💡</span>
+                        <p className="text-sm font-bold text-slate-600">Belum ada angle dijana.</p>
+                        <p className="text-xs text-slate-400 mt-1">Masukkan callout customer dan idea anda di panel kiri, kemudian tekan butang "Jana 5 Angle Content".</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Kad Output Kembangan Lengkap Bagi Angle Yang Dipilih */}
+                  {expandedContent && (
+                    <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-6 shadow-md flex flex-col gap-4">
+                      <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-slate-100 pb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[#38A854] font-bold text-lg">📄</span>
+                          <h4 className="font-extrabold text-slate-800 text-base">
+                            Kembangan Content Lengkap ({expandedContent.tag})
+                          </h4>
+                        </div>
+                        <button
+                          onClick={handleCopyExpanded}
+                          className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#4358C6] hover:bg-[#3F51B5] text-white rounded-lg text-xs font-extrabold transition-all active:scale-95 shadow-sm"
+                        >
+                          {copiedDump ? (
+                            <>
+                              <span className="text-[#FFEA3D]">✓</span>
+                              <span className="text-[#FFEA3D]">Tersalin!</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>📋</span>
+                              <span>Salin Content Ini</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Bahagian 1: Hook */}
+                      <div className="bg-slate-50 border-2 border-[#F04134] rounded-xl p-3.5">
+                        <div className="text-[10px] font-extrabold text-white bg-[#F04134] inline-block px-2 py-0.5 rounded uppercase tracking-wider mb-1.5">
+                          🔥 1. Hook 3 Saat Pertama
+                        </div>
+                        <p className="font-extrabold text-slate-900 text-sm sm:text-base">
+                          {expandedContent.hook}
+                        </p>
+                      </div>
+
+                      {/* Bahagian 2: Penceritaan */}
+                      <div className="bg-slate-50 border-2 border-[#7239C7] rounded-xl p-3.5">
+                        <div className="text-[10px] font-extrabold text-white bg-[#7239C7] inline-block px-2 py-0.5 rounded uppercase tracking-wider mb-1.5">
+                          📖 2. Penceritaan Emosi & Isu Realiti
+                        </div>
+                        <p className="font-semibold text-slate-800 text-sm whitespace-pre-line leading-relaxed">
+                          {expandedContent.story}
+                        </p>
+                      </div>
+
+                      {/* Bahagian 3: Solusi Maths Klub */}
+                      <div className="bg-slate-50 border-2 border-[#38A854] rounded-xl p-3.5">
+                        <div className="text-[10px] font-extrabold text-white bg-[#38A854] inline-block px-2 py-0.5 rounded uppercase tracking-wider mb-1.5">
+                          💡 3. Solusi Visual Maths Klub
+                        </div>
+                        <p className="font-semibold text-slate-800 text-sm leading-relaxed">
+                          {expandedContent.solution}
+                        </p>
+                      </div>
+
+                      {/* Bahagian 4: CTA */}
+                      <div className="bg-slate-50 border-2 border-[#FFB300] rounded-xl p-3.5">
+                        <div className="text-[10px] font-extrabold text-slate-900 bg-[#FFB300] inline-block px-2 py-0.5 rounded uppercase tracking-wider mb-1.5">
+                          ✅ 4. Call To Action (CTA)
+                        </div>
+                        <p className="font-bold text-slate-800 text-sm">
+                          {expandedContent.cta}
+                        </p>
+                      </div>
+
+                      {/* Bahagian 5: Cadangan Media */}
+                      <div className="bg-slate-50 border-2 border-[#00ABA9] rounded-xl p-3.5">
+                        <div className="text-[10px] font-extrabold text-white bg-[#00ABA9] inline-block px-2 py-0.5 rounded uppercase tracking-wider mb-1.5">
+                          🎬 5. Cadangan Visual / Media
+                        </div>
+                        <p className="font-semibold text-slate-700 text-xs sm:text-sm">
+                          {expandedContent.media}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+
+              </div>
+            )}
+
+          </div>
+
+          {/* Footer Section */}
+          <footer className="mt-8 pt-4 border-t-2 border-slate-200 text-center text-xs text-slate-400 font-bold">
+            Kinder Klub ©️ | All Rights Reserved.
+          </footer>
+        </div>
+      );
+    }
+
+    // Render App
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+
+</body>
+</html>
